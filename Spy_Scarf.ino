@@ -17,9 +17,12 @@ void setup() {
 
 int pirVal = 0; 
 int pirState = LOW;
+int buttonState = LOW;
+boolean laserState = false;
 
 void loop() {
   pirVal = digitalRead(pirSensorInput);
+  buttonState = digitalRead(buttonInput);
   if (pirVal == HIGH) {            // check if the input is HIGH
     digitalWrite(buzzerPin, HIGH);
     if (pirState == LOW) {
@@ -32,6 +35,20 @@ void loop() {
       Serial.println("Motion ended!");
       pirState = LOW;
     }
+  }
+
+  if(buttonState == HIGH){
+    Serial.println("Button pressed");
+   laserState = !laserState;
+   Serial.println(laserState);
+   delay(400);
+  }
+
+  if(laserState){
+    digitalWrite(laserSensor, HIGH);
+    Serial.println("Laser is on!");
+  }else{
+    digitalWrite(laserSensor, LOW);
   }
 
 }
